@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>法人概要｜えんむすび</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1B2B4B;--navy-mid:#263754;--gold:#C49A3C;--beige:#F7F4EE;--beige-dark:#F0EBE1;--cream:#FAFAF8;--white:#FFFFFF;--mid:#4A5568;--muted:#718096;--border:rgba(27,43,75,0.1);}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--navy);line-height:1.7;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:#FAFAF8;border-bottom:1px solid var(--border);height:56px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-family:'Noto Serif JP',serif;font-size:1.05rem;font-weight:600;color:var(--navy);text-decoration:none;letter-spacing:0.06em;}
+.logo em{color:var(--gold);font-style:italic;font-weight:700;}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none;}
+.nav-links a{font-size:0.84rem;color:var(--mid);text-decoration:none;font-weight:400;letter-spacing:0.03em;transition:color .2s;}
+.nav-links a:hover{color:var(--navy);}
+.nav-links a.active{color:var(--navy);font-weight:500;}
+.nav-cta{background:var(--navy)!important;color:var(--white)!important;padding:8px 18px;border-radius:4px;font-size:0.82rem!important;font-weight:500!important;}
+.nav-cta:hover{background:var(--navy-mid)!important;}
+.page-hero{background:var(--beige);padding:140px 6% 72px;border-bottom:1px solid var(--beige-dark);}
+.page-hero-tag{font-size:0.72rem;letter-spacing:0.16em;color:var(--gold);font-weight:500;text-transform:uppercase;margin-bottom:12px;}
+.page-hero-title{font-family:'Noto Serif JP',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:700;color:var(--navy);}
+.page-hero-lead{font-size:0.95rem;color:var(--mid);line-height:1.9;max-width:520px;margin-top:1rem;border-left:3px solid var(--gold);padding-left:1.2rem;}
+#vision{background:var(--navy);padding:80px 6%;text-align:center;}
+.vision-inner{max-width:720px;margin:0 auto;}
+.vision-tag{font-size:0.72rem;letter-spacing:0.16em;color:var(--gold);font-weight:500;text-transform:uppercase;margin-bottom:1.2rem;}
+.vision-quote{font-family:'Noto Serif JP',serif;font-size:clamp(1.5rem,2.6vw,2.2rem);font-weight:700;color:var(--white);line-height:1.55;margin-bottom:1.5rem;}
+.vision-quote em{color:var(--gold);font-style:normal;}
+.vision-body{font-size:0.9rem;color:rgba(255,255,255,0.5);line-height:1.95;}
+#info{background:var(--white);padding:80px 6%;}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
+.section-tag{font-size:0.72rem;letter-spacing:0.16em;color:var(--gold);font-weight:500;text-transform:uppercase;margin-bottom:12px;}
+.section-title{font-family:'Noto Serif JP',serif;font-size:clamp(1.5rem,2.2vw,2rem);font-weight:700;color:var(--navy);line-height:1.45;margin-bottom:2rem;}
+.info-row{display:grid;grid-template-columns:120px 1fr;gap:1.5rem;padding:1.2rem 0;border-bottom:1px solid var(--border);}
+.info-row:last-child{border-bottom:none;}
+.info-label{font-size:0.78rem;color:var(--muted);padding-top:2px;}
+.info-val{font-size:0.9rem;color:var(--navy);line-height:1.75;}
+#purpose{background:var(--beige);padding:80px 6%;}
+.purpose-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem;}
+.purpose-card{background:var(--white);border-radius:10px;padding:2rem 1.8rem;}
+.purpose-card-num{font-family:'Noto Serif JP',serif;font-size:2rem;font-weight:700;color:var(--beige-dark);line-height:1;margin-bottom:0.8rem;}
+.purpose-card h3{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:0.6rem;}
+.purpose-card p{font-size:0.84rem;color:var(--mid);line-height:1.8;}
+footer{background:#0E1824;padding:1.5rem 6%;font-size:0.76rem;color:rgba(255,255,255,0.22);}
+@media(max-width:900px){.nav-links{display:none;}.info-grid{grid-template-columns:1fr;}.purpose-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">一般社団法人 中小企業財務支援機構</a>
+  <ul class="nav-links">
+    <li><a href="services.html">提供サービス</a></li>
+    <li><a href="about.html" class="active">法人概要</a></li>
+    <li><a href="contact.html" class="nav-cta">お問い合わせ</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-tag">ABOUT</div>
+  <h1 class="page-hero-title">法人概要</h1>
+</div>
+
+<section id="info">
+  <div class="info-grid">
+    <div>
+      <div class="section-tag">COMPANY INFO</div>
+      <h2 class="section-title">基本情報</h2>
+      <div class="info-row"><div class="info-label">法人名</div><div class="info-val">一般社団法人 中小企業財務支援機構</div></div>
+      <div class="info-row"><div class="info-label">設立</div><div class="info-val">2024年11月24日</div></div>
+      <div class="info-row"><div class="info-label">代表者</div><div class="info-val">代表理事　中村 尚史</div></div>
+      <div class="info-row"><div class="info-label">電話番号</div><div class="info-val">03-6766-8441</div></div>
+      <div class="info-row"><div class="info-label">所在地</div><div class="info-val">〒161-0034<br>東京都新宿区上落合2丁目21番10号</div></div>
+      <div class="info-row" style="align-items:start;">
+        <div class="info-label">事業領域</div>
+        <div class="info-val" style="display:flex;flex-direction:column;gap:0;">
+          <div style="padding:0.7rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.8rem;"><span style="width:16px;height:1px;background:var(--muted);display:inline-block;flex-shrink:0;"></span>情報提供</div>
+          <div style="padding:0.7rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.8rem;"><span style="width:16px;height:1px;background:var(--muted);display:inline-block;flex-shrink:0;"></span>財務・コスト相談</div>
+          <div style="padding:0.7rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.8rem;"><span style="width:16px;height:1px;background:var(--muted);display:inline-block;flex-shrink:0;"></span>法人化支援</div>
+          <div style="padding:0.7rem 0;display:flex;align-items:center;gap:0.8rem;"><span style="width:16px;height:1px;background:var(--muted);display:inline-block;flex-shrink:0;"></span>士業紹介</div>
+        </div>
+      </div>
+      <div class="info-row"><div class="info-label">取引先銀行</div><div class="info-val">住信SBIネット銀行</div></div>
+    </div>
+    <div>
+      <div class="section-tag">OFFICE LOCATION</div>
+      <iframe
+        src="https://maps.google.com/maps?q=東京都新宿区上落合2丁目21番10号&t=&z=17&ie=UTF8&iwloc=&output=embed"
+        width="100%" height="480"
+        style="border:0;border-radius:8px;display:block;margin-bottom:1.8rem;"
+        allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+      <div style="font-size:0.74rem;letter-spacing:0.12em;color:var(--muted);margin-bottom:1.2rem;display:flex;align-items:center;gap:8px;">
+        <span style="width:24px;height:1px;background:var(--muted);display:inline-block;"></span>
+        ACCESS — アクセス
+      </div>
+      <ul style="list-style:none;">
+        <li style="font-size:0.88rem;color:var(--mid);padding:1rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem;">
+          <span style="width:16px;height:1px;background:var(--muted);flex-shrink:0;display:inline-block;"></span>
+          都営大江戸線「<strong style="color:var(--navy);">中井駅</strong>」 徒歩1分
+        </li>
+        <li style="font-size:0.88rem;color:var(--mid);padding:1rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem;">
+          <span style="width:16px;height:1px;background:var(--muted);flex-shrink:0;display:inline-block;"></span>
+          西武新宿線「<strong style="color:var(--navy);">中井駅</strong>」 徒歩3分
+        </li>
+        <li style="font-size:0.88rem;color:var(--mid);padding:1rem 0;display:flex;align-items:center;gap:1rem;">
+          <span style="width:16px;height:1px;background:var(--muted);flex-shrink:0;display:inline-block;"></span>
+          東京メトロ東西線「<strong style="color:var(--navy);">落合駅</strong>」 4番出口 徒歩6分
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer style="background:#0E1824;padding:2rem 6%;text-align:center;"><p style="font-size:0.88rem;color:rgba(255,255,255,0.6);margin-bottom:0.4rem;">一般社団法人 中小企業財務支援機構</p><p style="font-size:0.76rem;color:rgba(255,255,255,0.25);">© 2026 一般社団法人 中小企業財務支援機構 All Rights Reserved.</p></footer>
+</body>
+</html>
