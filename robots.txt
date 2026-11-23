@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://zaimusienkikou-website.vercel.app/sitemap.xml
