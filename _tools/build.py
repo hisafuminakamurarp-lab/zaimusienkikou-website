@@ -7,7 +7,7 @@ SITE = "https://zaimusienkikou-website.vercel.app"
 NAME = "一般社団法人 中小企業財務支援機構"
 TEL = "03-6766-8441"
 MOBILE = "070-8521-9870"
-ADDR = "〒161-0034 東京都新宿区上落合2丁目21番10号 102"
+ADDR = "〒161-0034 東京都新宿区上落合2丁目21番10号"
 
 MARK = '<svg class="logo-mark" viewBox="0 0 178 187" aria-hidden="true"><path class="g" fill="#b69355" d="M16 0h69l-10 17H26zM93 0h69l-10 17h-49zM16 147h146v14H16z"/><path fill="currentColor" d="M30 17h41v130H30zM107 17h41v130h-41zM0 169h178v18H0z"/></svg>'
 
@@ -338,7 +338,7 @@ about = head("法人概要", "一般社団法人 中小企業財務支援機構�
       <tr><th>法人名</th><td>{NAME}</td></tr>
       <tr><th>設立</th><td>2024年11月14日</td></tr>
       <tr><th>代表者</th><td>代表理事　中村 尚史</td></tr>
-      <tr><th>所在地</th><td>〒161-0034<br>東京都新宿区上落合2丁目21番10号 102</td></tr>
+      <tr><th>所在地</th><td>〒161-0034<br>東京都新宿区上落合2丁目21番10号</td></tr>
       <tr><th>電話番号</th><td><a href="tel:{TEL}" style="text-decoration:none">{TEL}</a>（平日 10:00〜18:00）</td></tr>
       <tr><th>事業内容</th><td><ul><li>中小企業・個人事業主向けの情報提供</li><li>財務・コストに関する相談</li><li>法人化に関する相談・支援</li><li>専門家（税理士・公認会計士・社会保険労務士 等）の紹介</li></ul></td></tr>
       <tr><th>取引銀行</th><td>住信SBIネット銀行</td></tr>
