@@ -13,7 +13,7 @@ ADDR = "〒161-0034 東京都新宿区上落合2丁目21番10号"
 
 MARK = '<svg class="logo-mark" viewBox="0 0 178 187" aria-hidden="true"><path class="g" fill="#b69355" d="M16 0h69l-10 17H26zM93 0h69l-10 17h-49zM16 147h146v14H16z"/><path fill="currentColor" d="M30 17h41v130H30zM107 17h41v130h-41zM0 169h178v18H0z"/></svg>'
 
-NAV_ITEMS = [("services.html", "提供サービス"), ("services.html#experts", "専門家紹介"), ("about.html", "法人概要")]
+NAV_ITEMS = [("services.html", "提供サービス"), ("services.html#experts", "専門家紹介"), ("column.html", "コラム"), ("about.html", "法人概要")]
 
 
 def head(title, desc, path):
@@ -78,6 +78,7 @@ FOOT = f"""<footer class="footer">
       <li><a href="index.html">トップ</a></li>
       <li><a href="services.html">提供サービス</a></li>
       <li><a href="services.html#experts">専門家紹介窓口</a></li>
+      <li><a href="column.html">コラム</a></li>
       <li><a href="about.html">法人概要</a></li>
       <li><a href="contact.html">お問い合わせ</a></li>
       <li><a href="privacy.html">プライバシーポリシー</a></li>
@@ -592,6 +593,37 @@ policy = head("サイトのご利用について", "一般社団法人 中小企
 </html>
 """
 write("policy.html", policy)
+
+# ---------------- column (Coming Soon) ----------------
+COLUMN_CATS = [
+    ("Tax", "税金・節税の基礎", "所得税・消費税・法人税の仕組み、青色申告や小規模企業共済の活用など。"),
+    ("Finance", "財務・資金繰り", "キャッシュフローの見方、固定費の見直し、資金調達の基本など。"),
+    ("Support", "補助金・助成金・制度", "中小企業が使える制度の探し方と、制度改正のポイントを解説。"),
+    ("Growth", "法人化・法律・契約", "法人化の判断基準、フリーランス保護法、契約書の注意点など。"),
+]
+CAT_CHIPS = "".join(f'<span class="tag">{c[1]}</span>' for c in COLUMN_CATS)
+CAT_CARDS = "\n".join(f'      <div class="col-card"><div class="col-thumb"><span>{en}</span></div><div class="col-body"><div class="card-num">{jp}</div><h3>Coming Soon｜近日公開</h3><p>{d}</p></div></div>' for en, jp, d in COLUMN_CATS)
+column = head("コラム", "中小企業・個人事業主の経営に役立つ、税金・財務・制度・法人化の情報を発信するコラムです（近日公開）。", "column.html").replace("<head>", '<head>\n<meta name="robots" content="noindex">') + nav("column.html") + page_hero(
+    "Column", "経営に役立つ情報を、<br>わかりやすく発信。", "税金や財務、使える制度、法人化のことまで。中小企業・個人事業主の経営に必要な知識を、専門的な内容もかみ砕いて定期的にお届けします。", "コラム") + f"""<main>
+<section>
+  <div class="container">
+    <div class="soon-badge">Coming Soon｜近日公開</div>
+    <div class="section-label">Categories</div>
+    <h2 class="section-title">こんなテーマでお届けします</h2>
+    <div class="gold-divider"></div>
+    <div class="tags" style="margin-bottom:8px">{CAT_CHIPS}</div>
+    <div class="col-grid reveal">
+{CAT_CARDS}
+    </div>
+    <p class="note">記事は準備が整いしだい、順次公開します。掲載内容は一般的な情報提供を目的としたもので、個別の税務・法律の判断は専門家にご相談ください。</p>
+  </div>
+</section>
+
+{cta()}</main>
+{FOOT}</body>
+</html>
+"""
+write("column.html", column)
 
 # ---------------- 404 / robots / sitemap ----------------
 nf = head("ページが見つかりません", "お探しのページは見つかりませんでした。", "404.html").replace("<head>", '<head>\n<meta name="robots" content="noindex">') + nav("") + f"""<main>
