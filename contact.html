@@ -58,6 +58,7 @@
       <p class="section-sub" style="margin-bottom:32px">サービス内容やご自身の状況に合った相談など、どんなことでもお気軽にご連絡ください。</p>
       <form id="inquiryForm" novalidate>
         <input type="hidden" name="_subject" value="【中小企業財務支援機構】お問い合わせ・無料相談">
+        <div class="hp-field" aria-hidden="true"><label>ウェブサイト<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
         <div class="form-row">
           <div class="form-group"><label for="f-name">お名前<span class="req">必須</span></label><input id="f-name" name="お名前" type="text" placeholder="山田 太郎" autocomplete="name" required></div>
           <div class="form-group"><label for="f-kana">フリガナ<span class="opt">任意</span></label><input id="f-kana" name="フリガナ" type="text" placeholder="ヤマダ タロウ"></div>
@@ -71,7 +72,8 @@
             <select id="f-type" name="事業形態" required>
               <option value="">選択してください</option>
               <option>個人事業主・フリーランス</option>
-              <option>小規模法人（役員・代表）</option>
+              <option>法人（経営者・役員）</option>
+              <option>法人（管理部門のご担当者）</option>
               <option>法人化を検討中</option>
               <option>その他</option>
             </select></div>
@@ -129,6 +131,21 @@
 <script src="assets/site.js"></script>
 <script>
 (function(){
+  // 送信先: Google Apps Script（スプレッドシート記録＋メール・Slack通知）。失敗時は Formspree に送る
+  var GAS_URL='';
+  var FORMSPREE_URL='https://formspree.io/f/xqeweppw';
+  async function sendToGas(data){
+    var params=new URLSearchParams();
+    data.forEach(function(v,k){params.append(k,v);});
+    params.append('page',location.href);
+    var res=await fetch(GAS_URL,{method:'POST',body:params});
+    var json=await res.json();
+    if(!json.ok)throw new Error(json.error||'gas');
+  }
+  async function sendToFormspree(data){
+    var res=await fetch(FORMSPREE_URL,{method:'POST',body:data,headers:{'Accept':'application/json'}});
+    if(!res.ok)throw new Error('status '+res.status);
+  }
   var form=document.getElementById('inquiryForm');
   var err=document.getElementById('formError');
   function showError(msg){err.textContent=msg;err.style.display='block';}
@@ -145,9 +162,14 @@
     var btn=form.querySelector('button[type="submit"]');
     btn.textContent='送信中...';btn.disabled=true;
     try{
-      var res=await fetch('https://formspree.io/f/xqeweppw',{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}});
-      if(res.ok){location.href='thanks.html';return;}
-      throw new Error('send failed');
+      var data=new FormData(form);
+      if(GAS_URL){
+        try{await sendToGas(data);}
+        catch(gasErr){await sendToFormspree(data);}
+      }else{
+        await sendToFormspree(data);
+      }
+      location.href='thanks.html';
     }catch(_){
       btn.textContent='送信する';btn.disabled=false;
       showError('送信に失敗しました。お手数ですが、お電話（03-6766-8441）にてお問い合わせください。');

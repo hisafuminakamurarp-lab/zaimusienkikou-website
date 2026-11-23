@@ -6,6 +6,8 @@ OUT = sys.argv[1]
 SITE = "https://zaimusienkikou-website.vercel.app"
 NAME = "一般社団法人 中小企業財務支援機構"
 TEL = "03-6766-8441"
+# お問い合わせの受付先（Apps Script ウェブアプリのURL）。空ならFormspreeのみに送る
+GAS_URL = ""
 MOBILE = "070-8521-9870"
 ADDR = "〒161-0034 東京都新宿区上落合2丁目21番10号"
 
@@ -210,10 +212,12 @@ index = head("", "中小企業・個人事業主の経営の土台づくりを�
     <div class="section-label">For Whom</div>
     <h2 class="section-title">こんな方のための団体です</h2>
     <div class="gold-divider"></div>
-    <div class="card-grid cols-3 reveal">
-      <div class="card hover"><div class="card-num">CASE 01</div><h3>個人事業主・フリーランス</h3><p>税金や経費の負担、法的保護の薄さ、将来への不安を抱えながら事業を続けている方。</p></div>
-      <div class="card hover"><div class="card-num">CASE 02</div><h3>小規模法人・スタートアップ</h3><p>専任の総務・経理がおらず、制度の活用や行政対応を代表者一人でこなしている会社。</p></div>
-      <div class="card hover"><div class="card-num">CASE 03</div><h3>法人化を検討している方</h3><p>売上は伸びてきたものの、いつ・どう法人化すべきか、税・社会保険・登記の全体像が見えていない方。</p></div>
+    <p class="section-sub">個人事業主から、従業員を抱える中小企業まで。規模や業種を問わず、経営の土台づくりを支援します。</p>
+    <div class="card-grid cols-2 reveal">
+      <div class="card hover"><div class="card-num">CASE 01</div><h3>個人事業主・フリーランス</h3><p>税金や経費の負担、将来への不安を抱えながら、ほぼ一人で事業を続けている方。</p></div>
+      <div class="card hover"><div class="card-num">CASE 02</div><h3>中小企業の経営者・役員</h3><p>資金繰り・税負担・人事労務など、経営課題が多岐にわたり、判断の相談相手がほしい会社。</p></div>
+      <div class="card hover"><div class="card-num">CASE 03</div><h3>管理部門の体制を整えたい会社</h3><p>専任の総務・経理がいない、または少人数で回していて、制度改正や専門的な判断に外部の知見がほしい会社。</p></div>
+      <div class="card hover"><div class="card-num">CASE 04</div><h3>法人化・事業拡大を検討している方</h3><p>法人化のタイミング、拠点や事業の拡大など、次のステージに向けて判断材料と専門家の力がほしい方。</p></div>
     </div>
   </div>
 </section>
@@ -379,6 +383,7 @@ contact = head("お問い合わせ", "一般社団法人 中小企業財務支�
       <p class="section-sub" style="margin-bottom:32px">サービス内容やご自身の状況に合った相談など、どんなことでもお気軽にご連絡ください。</p>
       <form id="inquiryForm" novalidate>
         <input type="hidden" name="_subject" value="【中小企業財務支援機構】お問い合わせ・無料相談">
+        <div class="hp-field" aria-hidden="true"><label>ウェブサイト<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
         <div class="form-row">
           <div class="form-group"><label for="f-name">お名前<span class="req">必須</span></label><input id="f-name" name="お名前" type="text" placeholder="山田 太郎" autocomplete="name" required></div>
           <div class="form-group"><label for="f-kana">フリガナ<span class="opt">任意</span></label><input id="f-kana" name="フリガナ" type="text" placeholder="ヤマダ タロウ"></div>
@@ -392,7 +397,8 @@ contact = head("お問い合わせ", "一般社団法人 中小企業財務支�
             <select id="f-type" name="事業形態" required>
               <option value="">選択してください</option>
               <option>個人事業主・フリーランス</option>
-              <option>小規模法人（役員・代表）</option>
+              <option>法人（経営者・役員）</option>
+              <option>法人（管理部門のご担当者）</option>
               <option>法人化を検討中</option>
               <option>その他</option>
             </select></div>
@@ -431,6 +437,21 @@ contact = head("お問い合わせ", "一般社団法人 中小企業財務支�
 </main>
 {FOOT}<script>
 (function(){{
+  // 送信先: Google Apps Script（スプレッドシート記録＋メール・Slack通知）。失敗時は Formspree に送る
+  var GAS_URL='{GAS_URL}';
+  var FORMSPREE_URL='https://formspree.io/f/xqeweppw';
+  async function sendToGas(data){{
+    var params=new URLSearchParams();
+    data.forEach(function(v,k){{params.append(k,v);}});
+    params.append('page',location.href);
+    var res=await fetch(GAS_URL,{{method:'POST',body:params}});
+    var json=await res.json();
+    if(!json.ok)throw new Error(json.error||'gas');
+  }}
+  async function sendToFormspree(data){{
+    var res=await fetch(FORMSPREE_URL,{{method:'POST',body:data,headers:{{'Accept':'application/json'}}}});
+    if(!res.ok)throw new Error('status '+res.status);
+  }}
   var form=document.getElementById('inquiryForm');
   var err=document.getElementById('formError');
   function showError(msg){{err.textContent=msg;err.style.display='block';}}
@@ -447,9 +468,14 @@ contact = head("お問い合わせ", "一般社団法人 中小企業財務支�
     var btn=form.querySelector('button[type="submit"]');
     btn.textContent='送信中...';btn.disabled=true;
     try{{
-      var res=await fetch('https://formspree.io/f/xqeweppw',{{method:'POST',body:new FormData(form),headers:{{'Accept':'application/json'}}}});
-      if(res.ok){{location.href='thanks.html';return;}}
-      throw new Error('send failed');
+      var data=new FormData(form);
+      if(GAS_URL){{
+        try{{await sendToGas(data);}}
+        catch(gasErr){{await sendToFormspree(data);}}
+      }}else{{
+        await sendToFormspree(data);
+      }}
+      location.href='thanks.html';
     }}catch(_){{
       btn.textContent='送信する';btn.disabled=false;
       showError('送信に失敗しました。お手数ですが、お電話（{TEL}）にてお問い合わせください。');
@@ -481,6 +507,10 @@ thanks = head("送信完了", "お問い合わせを受け付けました。", "
 write("thanks.html", thanks)
 
 # ---------------- privacy ----------------
+# 外部サービスの記載は、Apps Script 受付を使っているか（GAS_URL）で切り替える
+FORM_SERVICES = ("お問い合わせフォームの内容は、Google LLC（米国）が提供する Google Apps Script・Google スプレッドシート・Gmail を利用して記録・通知し、担当者への連絡に Slack Technologies, LLC（米国）が提供する Slack を利用しています。これらのサービスが利用できない場合に限り、米国の事業者が提供するフォーム送信サービス「Formspree」を経由して届きます。"
+                 if GAS_URL else
+                 "お問い合わせフォームの送信には、米国の事業者が提供するフォーム送信サービス「Formspree」を利用しており、入力内容は同社のサーバーを経由して当機構へ届きます。")
 privacy = head("プライバシーポリシー", "一般社団法人 中小企業財務支援機構の個人情報の取り扱いについて。", "privacy.html") + nav("") + page_hero(
     "Privacy Policy", "プライバシーポリシー", "当機構における個人情報の取り扱いについてご案内します。", "プライバシーポリシー") + f"""<main>
 <section>
@@ -501,7 +531,7 @@ privacy = head("プライバシーポリシー", "一般社団法人 中小企�
 
     <h2>4. 業務の委託と外部サービスの利用</h2>
     <p>当機構は、利用目的の達成に必要な範囲で、個人情報の取り扱いを外部に委託することがあります。その際は委託先を適切に監督します。</p>
-    <p>お問い合わせフォームの送信には、米国の事業者が提供するフォーム送信サービス「Formspree」を利用しており、入力内容は同社のサーバーを経由して当機構へ届きます。米国の個人情報保護制度については、個人情報保護委員会のウェブサイトで公表されている情報をご参照ください。</p>
+    <p>{FORM_SERVICES}米国の個人情報保護制度については、個人情報保護委員会のウェブサイトで公表されている情報をご参照ください。</p>
 
     <h2>5. 安全管理措置</h2>
     <p>当機構は、個人情報の漏えい・滅失・毀損を防止するため、アクセス権限の管理など必要かつ適切な安全管理措置を講じます。</p>

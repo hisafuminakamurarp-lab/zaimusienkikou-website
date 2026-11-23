@@ -292,3 +292,4 @@ a.card:hover,.card.hover:hover{transform:translateY(-4px);box-shadow:0 12px 32px
   .map{height:300px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+.hp-field{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}
